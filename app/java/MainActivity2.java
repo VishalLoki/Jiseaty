@@ -1,13 +1,13 @@
 package com.example.jiseaty;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,22 +20,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
     public List<Item> items = new ArrayList<Item>();
     public SwipeRefreshLayout swipeRefreshLayout;
     public RecyclerView recyclerView;
     public MyAdapter myAdapter;
     JSONArray predefinedArray;
-    public RelativeLayout searchView;
+    public SearchView searchView;
     //private InterstitialAd mInterstitialAd;
     //private InterstitialAd m2InterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         /*Window window = getWindow();
 
         // Set FLAG_LAYOUT_NO_LIMITS
@@ -55,90 +54,6 @@ public class MainActivity extends AppCompatActivity {
         String unit2="ca-app-pub-3940256099942544/1033173712";
         loadad(unit1);
         loadad1(unit2);*/
-        Button edubut = findViewById(R.id.edubut);
-        Button mapbut = findViewById(R.id.mapbut);
-
-        edubut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*if (mInterstitialAd != null) {
-                    mInterstitialAd.show(MainActivity.this);
-                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                        @Override
-                        public void onAdClicked() {
-                            // Called when a click is recorded for an ad.
-                        }
-
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when ad is dismissed.
-                            // Set the ad reference to null so you don't show the ad a second time.
-                            startActivity(new Intent(MainActivity.this, Education.class));
-                            loadad(unit1);
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when ad fails to show.
-                            mInterstitialAd = null;
-                        }
-
-                        @Override
-                        public void onAdImpression() {
-                            // Called when an impression is recorded for an ad.
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when ad is shown.
-                        }
-                    });
-                } else {*/
-                    startActivity(new Intent(MainActivity.this, Education.class));
-                /*}*/
-            }
-        });
-
-        mapbut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*if (m2InterstitialAd != null) {
-                    m2InterstitialAd.show(MainActivity.this);
-                    m2InterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                        @Override
-                        public void onAdClicked() {
-                            // Called when a click is recorded for an ad.
-                        }
-
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            // Called when ad is dismissed.
-                            // Set the ad reference to null so you don't show the ad a second time.
-                            startActivity(new Intent(MainActivity.this, Explore.class));
-                            loadad1(unit2);
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(AdError adError) {
-                            // Called when ad fails to show.
-                            m2InterstitialAd = null;
-                        }
-
-                        @Override
-                        public void onAdImpression() {
-                            // Called when an impression is recorded for an ad.
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            // Called when ad is shown.
-                        }
-                    });
-                } else {*/
-                    startActivity(new Intent(MainActivity.this, Explore.class));
-                /*}*/
-            }
-        });
 
         ImageButton back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -150,10 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
         searchView = findViewById(R.id.searchView);
         searchView.clearFocus();
-        searchView.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
             }
         });
 
@@ -1017,7 +938,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return new JSONArray();
     }
-    private void handleApiResponse(JSONArray responseArray) {
+    /*private void handleApiResponse(JSONArray responseArray) {
         try {
             items.clear();
 
@@ -1047,6 +968,39 @@ public class MainActivity extends AppCompatActivity {
             myAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }*/
+    private void handleApiResponse(JSONArray responseArray) {
+        try {
+            for (int i = 0; i < responseArray.length(); i++) {
+                JSONObject itemObject = responseArray.getJSONObject(i);
+                String name = itemObject.getString("name");
+                String imageUrl = itemObject.getString("imageUrl");
+                String videoUrl = itemObject.getString("videoUrl");
+                String description = itemObject.getString("description");
+                String dept = itemObject.getString("dept");
+
+                items.add(new Item(name, imageUrl, videoUrl, description, dept));
+            }
+
+            myAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void filterList(String Text){
+        List<Item> filterList = new ArrayList<>();
+        for (Item item1: items){
+            if(item1.getDescription().toLowerCase().contains(Text.toLowerCase())){
+                filterList.add(item1);
+            }else if(item1.getName().toLowerCase().contains(Text.toLowerCase())){
+                filterList.add(item1);
+            }
+        }
+        if(filterList.isEmpty()){
+            Toast.makeText(this,"No data found",Toast.LENGTH_SHORT).show();
+        }else{
+            myAdapter.setFilteredList(filterList);
         }
     }
     public void onBackPressed(){
