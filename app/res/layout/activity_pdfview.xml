@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context=".pdfview">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/splash"
+            android:layout_marginTop="13dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/feeds_png"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/pdfNamee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="sample.pdf"
+            android:textSize="18sp"
+            android:fontFamily="serif-monospace"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="65dp"
+            android:layout_marginTop="15dp"/>
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_marginTop="13dp"
+            android:layout_width="27dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35dp"
+            android:src="@drawable/back1"
+            android:scaleType="fitCenter"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/pdfview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.github.barteksc.pdfviewer.PDFView>
+
+            <ImageButton
+                android:id="@+id/download"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="55dp"
+                android:layout_marginBottom="55dp"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/download2"
+                android:background="@drawable/download_png"
+                android:scaleType="centerCrop"
+                android:onClick="download"
+                tools:ignore="onClick"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
