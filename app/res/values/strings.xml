@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Jiseaty</string>
+    <string name="civ">Civil Engineering</string>
+    <string name="cse">Computer Science Engineering</string>
+    <string name="ece">Electronics and Communication Engineering</string>
+    <string name="eee">Electrical and Electronics Engineering</string>
+    <string name="eie">Electronics and Instrumentation Engineering</string>
+    <string name="mech">Mechanical Engineering</string>
+    <string name="ibt">Industrial BioTechnology</string>
+    <string name="it">Information Technology</string>
+    <string name="prod">Production Engineering</string>
+</resources>
